@@ -43,7 +43,7 @@ body {
 .nav a {
   display: inline-block;
   text-decoration: none;
-  padding: 0.6rem 0.1rem;
+  padding: 0.6rem 0.9rem;
   color: aliceblue;
 }
 .nav a:hover {
