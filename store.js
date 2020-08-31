@@ -4,32 +4,16 @@ if (document.readyState === "loading") {
   ready();
 }
 
-var cartQuantityInput = document.getElementsByClassName("cart-quantity-input");
-
-Array.prototype.forEach.call(cartQuantityInput, (element) => {
-  element.addEventListener("change", (updateCartTotalOnQuantity) => {
-    console.log(updateCartTotalOnQuantity.target.value);
-  });
-});
-
-var shopItemButton = document.getElementsByClassName("shop-item-btn");
-
-var cartAddButton;
-Array.prototype.forEach.call(shopItemButton, (button) => {
-  cartAddButton = button;
-  cartAddButton.addEventListener("click", addToCartClicked);
-});
-
 function ready() {
-  // var removeCartItemButtons = document.getElementsByClassName("btn-danger");
-  // for (var i = 0; i < removeCartItemButtons.length; i++) {
-  //   var button = removeCartItemButtons[i];
-  //   button.addEventListener("click", (event) => {
-  //     var buttonClicked = event.target;
-  //     buttonClicked.parentElement.parentElement.remove();
-  //     updateCardTotal();
-  //   });
-  // }
+  /*-----------------------Item added to cart----------------------- */
+
+  var shopItemButton = document.getElementsByClassName("shop-item-btn");
+
+  var cartAddButton;
+  Array.prototype.forEach.call(shopItemButton, (button) => {
+    cartAddButton = button;
+    cartAddButton.addEventListener("click", addToCartClicked);
+  });
 }
 
 function updateCardTotal() {
@@ -62,9 +46,9 @@ function addToCartClicked(event) {
   let cartItemsNames = cartItems.getElementsByClassName("cart-item-title");
   for (let i = 0; i < cartItemsNames.length; i++) {
     const cartItemsName = cartItemsNames[i];
-    if (cartItemsNames[i].innerText === title){
-      alert("You already added to cart")
-      return
+    if (cartItemsNames[i].innerText === title) {
+      alert("You already added to cart");
+      return;
     }
   }
   addItemToCart(title, price, imgSrc);
@@ -87,12 +71,26 @@ function addItemToCart(title, price, imgSrc) {
 
   cartRow.innerHTML = cartRowContents;
   cartItems.append(cartRow);
+
+  /* ---------------------------removimg cart item------------------------ */
+
   cartRow
     .getElementsByClassName("btn-danger")[0]
     .addEventListener("click", removeCartItem);
+
+  /* -----------------------------cart quantity change----------------------- */
+
+  // console.log(cartRow);
+  cartRow
+    .getElementsByClassName("cart-quantity-input")[0]
+    .addEventListener("change", updateCardTotal);
 }
 
 function removeCartItem(event) {
   event.target.parentElement.parentElement.remove();
   updateCardTotal();
+}
+
+function cartQuantityChange(event) {
+  console.log(event);
 }
