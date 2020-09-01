@@ -295,3 +295,20 @@ body {
   margin: 40px auto 80px auto;
   font-size: 1.5rem;
 }
+
+.tool-tip-text {
+  visibility: hidden;
+  width: 80px;
+  border-radius: 6px;
+  color: rgb(29, 127, 238);
+  padding: 3px 0px;
+  margin: -7px 0px 0px -7px;
+  text-align: center;
+  z-index: 1;
+  position: absolute;
+}
+
+.tool-tip-text::before {
+  content: "*";
+  color: red;
+}

@@ -9,9 +9,9 @@ function ready() {
 
   var shopItemButton = document.getElementsByClassName("shop-item-btn");
 
-  var cartAddButton;
+  // var cartAddButton;
   Array.prototype.forEach.call(shopItemButton, (button) => {
-    cartAddButton = button;
+    var cartAddButton = button;
     cartAddButton.addEventListener("click", addToCartClicked);
   });
 }
@@ -37,7 +37,7 @@ function updateCardTotal() {
 
 function addToCartClicked(event) {
   var button = event.target;
-  var shopItem = button.parentElement.parentElement;
+  var shopItem = button.parentElement.parentElement.parentElement;
   var title = shopItem.getElementsByClassName("shop-item-title")[0].innerText;
   var imgSrc = shopItem.getElementsByClassName("shop-item-img")[0].src;
   var price = shopItem.getElementsByClassName("shop-item-price")[0].innerText;
@@ -47,7 +47,15 @@ function addToCartClicked(event) {
   for (let i = 0; i < cartItemsNames.length; i++) {
     const cartItemsName = cartItemsNames[i];
     if (cartItemsNames[i].innerText === title) {
-      alert("You already added to cart");
+      // alert("You already added to cart");
+      var toolTip = event.target.parentElement.getElementsByClassName(
+        "tool-tip-text"
+      )[0];
+      toolTip.style.visibility = "visible";
+      setTimeout(() => {
+        toolTip.style.visibility = "hidden";
+      }, 3000);
+      console.log(toolTip);
       return;
     }
   }
@@ -83,14 +91,32 @@ function addItemToCart(title, price, imgSrc) {
   // console.log(cartRow);
   cartRow
     .getElementsByClassName("cart-quantity-input")[0]
-    .addEventListener("change", updateCardTotal);
+    .addEventListener("change", cartQuantityChange);
 }
 
 function removeCartItem(event) {
-  event.target.parentElement.parentElement.remove();
+  let removeQuantity = event.target.parentElement.getElementsByClassName(
+    "cart-quantity-input"
+  )[0].value;
+  let removedQuantity = removeQuantity;
+  if (removeQuantity > 1) {
+    console.log(removeQuantity);
+    event.target.parentElement.getElementsByClassName(
+      "cart-quantity-input"
+    )[0].value = removedQuantity - 1;
+  } else if (removeQuantity == 1) {
+    event.target.parentElement.parentElement.remove();
+  }
   updateCardTotal();
 }
 
 function cartQuantityChange(event) {
-  console.log(event);
+  console.log(event.target.parentElement.parentElement);
+  var quantityValue = event.target.value;
+
+  if (quantityValue == 0) {
+    event.target.parentElement.parentElement.remove();
+  }
+
+  updateCardTotal();
 }
